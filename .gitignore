@@ -1,0 +1,22 @@
+# Flutter / Android
+.dart_tool/
+.flutter-plugins*
+.packages
+build/
+**/android/.gradle/
+**/android/local.properties
+**/android/key.properties
+*.jks
+*.keystore
+# IDE
+.idea/
+*.iml
+# Python
+.venv/
+__pycache__/
+.pytest_cache/
+*.pyc
+.env
+# SO
+.DS_Store
+Thumbs.db
