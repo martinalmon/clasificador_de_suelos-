@@ -305,5 +305,50 @@ Las pruebas comprueban los casos implementados, pero no demuestran todavía el c
 
 Desarrollar un servicio unificado que seleccione automáticamente el clasificador correspondiente a partir de los datos de laboratorio.
 
+## Etapa 4 — Clasificador SUCS unificado
+
+**Rama:** `feature/clasificador-unificado`  
+**Estado:** Implementado y probado  
+**Fecha:** 9 de noviembre de 2026
+
+### Objetivo
+
+Desarrollar una función central que determine automáticamente si una muestra corresponde a un suelo fino o grueso y seleccione el clasificador correspondiente.
+
+### Archivos implementados
+
+- `backend/app/domain/clasificador_unificado.py`
+- `backend/tests/test_clasificador_unificado.py`
+
+### Funcionalidades
+
+- Recepción de objetos `MuestraSuelo`.
+- Identificación de suelos finos cuando P200 ≥ 50 %.
+- Identificación de suelos gruesos cuando P200 < 50 %.
+- Selección automática del clasificador correspondiente.
+- Generación de un resultado uniforme mediante `ResultadoClasificacion`.
+- Conservación del identificador de muestra.
+- Conservación del índice de plasticidad.
+- Conservación de las advertencias de los clasificadores.
+
+### Pruebas automatizadas
+
+- 38 pruebas de etapas anteriores.
+- 8 pruebas nuevas del clasificador unificado.
+- **46 pruebas aprobadas en total**, según la ejecución confirmada por el desarrollador.
+
+### Limitaciones
+
+El motor todavía no contempla íntegramente los suelos orgánicos, las turbas, los modificadores descriptivos y otros criterios especiales de ASTM D2487.
+
+La aprobación de pruebas unitarias no equivale a una validación normativa completa.
+
+### Próxima etapa
+
+Integrar el clasificador unificado con FastAPI mediante un endpoint HTTP que reciba los datos de laboratorio y devuelva los resultados de clasificación.
+
+
+
+
 
 

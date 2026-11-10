@@ -439,6 +439,7 @@ Revisar el archivo `.gitignore` y comprobar qué archivos se prepararon antes de
 | `develop` | Integración de funcionalidades | Creada                                       |
 | `feature/modelo-muestras` | Modelo de muestras y clasificador de suelos finos | 20 pruebas aprobadas; push realizado         |
 | `feature/clasificacion-suelos-gruesos` | Clasificación de gravas y arenas | implementando; 38 pruebas totales aprobadas  |
+| `feature/clasificador-unificado` | Clasificador SUCS automático para suelos finos y gruesos | Implementado; 46 pruebas totales aprobadas |
 
 Actualizar esta tabla cuando se creen, integren o cierren ramas.
 
