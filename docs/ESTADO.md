@@ -248,3 +248,62 @@ Una funcionalidad se considerará terminada cuando:
 - Los cambios se registren mediante Git.
 
 **Restricción normativa:** GeoStratix se encuentra en desarrollo. Los resultados actuales son preliminares y no deben presentarse como certificaciones de cumplimiento integral con ASTM D2487.
+
+
+## Etapa 3 — Clasificación SUCS de suelos gruesos
+
+**Rama:** `feature/clasificacion-suelos-gruesos`  
+**Estado:** Implementado y probado  
+**Fecha:** 9 de noviembre de 2026
+
+### Objetivo
+
+Implementar la clasificación preliminar de gravas y arenas mediante los criterios del Sistema Unificado de Clasificación de Suelos (SUCS).
+
+### Archivos implementados
+
+- `backend/app/domain/clasificador_suelos_gruesos.py`
+- `backend/tests/test_clasificador_suelos_gruesos.py`
+
+### Funcionalidades desarrolladas
+
+- Identificación de gravas y arenas mediante los porcentajes pasantes de las mallas N.º 4 y N.º 200.
+- Clasificación de suelos gruesos con menos de 5 % de finos.
+- Clasificación de suelos con 5 % a 12 % de finos mediante símbolos dobles.
+- Clasificación de suelos con más de 12 % de finos.
+- Cálculo y utilización de Cu y Cc.
+- Evaluación de la plasticidad de los finos.
+- Clasificación mediante símbolos GW, GP, GM, GC, SW, SP, SM y SC.
+- Manejo inicial de símbolos dobles y casos fronterizos.
+- Advertencias cuando los resultados superan la línea U.
+- Corrección de errores de precisión decimal mediante `math.isclose()`.
+
+### Pruebas automatizadas
+
+- 20 pruebas de etapas anteriores.
+- 18 pruebas nuevas de suelos gruesos.
+- **38 pruebas aprobadas en total**, según la ejecución confirmada por el desarrollador.
+
+### Consideraciones técnicas
+
+El clasificador está separado del modelo de datos `MuestraSuelo`.
+
+Se emplean funciones auxiliares para determinar el tipo de suelo, su graduación y la naturaleza de sus finos.
+
+Las pruebas comprueban los casos implementados, pero no demuestran todavía el cumplimiento integral de ASTM D2487.
+
+### Pendiente
+
+- Validar exhaustivamente casos fronterizos y criterios normativos.
+- Integrar el clasificador de suelos finos y gruesos.
+- Implementar clasificación de suelos orgánicos y turbas.
+- Crear el endpoint de clasificación en FastAPI.
+- Conectar el backend con Flutter.
+- Incorporar carta de plasticidad y reportes PDF.
+
+### Próxima etapa
+
+Desarrollar un servicio unificado que seleccione automáticamente el clasificador correspondiente a partir de los datos de laboratorio.
+
+
+

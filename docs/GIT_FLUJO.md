@@ -433,12 +433,12 @@ Revisar el archivo `.gitignore` y comprobar qué archivos se prepararon antes de
 
 ## 13. Historial de ramas de GeoStratix
 
-| Rama | Funcionalidad | Estado registrado |
-|---|---|---|
-| `main` | Base estable del proyecto | Creada |
-| `develop` | Integración de funcionalidades | Creada |
-| `feature/modelo-muestras` | Modelo de muestras y clasificador de suelos finos | 20 pruebas aprobadas; push realizado |
-| `feature/clasificacion-suelos-gruesos` | Clasificación de gravas y arenas | Planeada; creación no confirmada |
+| Rama | Funcionalidad | Estado registrado                            |
+|---|---|----------------------------------------------|
+| `main` | Base estable del proyecto | Creada                                       |
+| `develop` | Integración de funcionalidades | Creada                                       |
+| `feature/modelo-muestras` | Modelo de muestras y clasificador de suelos finos | 20 pruebas aprobadas; push realizado         |
+| `feature/clasificacion-suelos-gruesos` | Clasificación de gravas y arenas | implementando; 38 pruebas totales aprobadas  |
 
 Actualizar esta tabla cuando se creen, integren o cierren ramas.
 
