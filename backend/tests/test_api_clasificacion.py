@@ -1,10 +1,22 @@
 import pytest
 from fastapi.testclient import TestClient
+from app.api.autenticacion import obtener_usuario_actual
 
 from app.main import app
 
 
 cliente = TestClient(app)
+
+@pytest.fixture
+def usuario_autenticado():
+    """Simula una identidad para probar los cálculos de clasificación."""
+    app.dependency_overrides[obtener_usuario_actual] = (
+        lambda: {"uid": "usuario-prueba"}
+    )
+    try:
+        yield
+    finally:
+        app.dependency_overrides.pop(obtener_usuario_actual, None)
 
 MUESTRA_FINA = {
     "identificador": "F-001",
@@ -17,7 +29,7 @@ MUESTRA_FINA = {
 }
 
 
-def test_clasifica_muestra_fina():
+def test_clasifica_muestra_fina(usuario_autenticado):
     respuesta = cliente.post("/classify", json=MUESTRA_FINA)
 
     assert respuesta.status_code == 200, respuesta.text
@@ -31,7 +43,7 @@ def test_clasifica_muestra_fina():
     assert isinstance(resultado["advertencias"], list)
 
 
-def test_clasifica_grava():
+def test_clasifica_grava(usuario_autenticado):
     muestra = {
         "identificador": "G-001",
         "pasa_malla_4": 30,
@@ -62,10 +74,32 @@ def test_clasifica_grava():
         {"dato_desconocido": 1},
     ],
 )
-def test_rechaza_entrada_invalida(cambio):
+def test_rechaza_entrada_invalida(cambio, usuario_autenticado):
     muestra = {**MUESTRA_FINA, **cambio}
 
     respuesta = cliente.post("/classify", json=muestra)
 
     assert respuesta.status_code == 422, respuesta.text
     assert respuesta.json()["detail"]
+
+def test_rechaza_clasificacion_sin_token():
+    respuesta = cliente.post("/classify", json=MUESTRA_FINA)
+
+    assert respuesta.status_code == 401, respuesta.text
+    assert respuesta.headers["www-authenticate"] == "Bearer"
+
+
+def test_rechaza_clasificacion_con_token_invalido(monkeypatch):
+    monkeypatch.setenv(
+        "FIREBASE_AUTH_EMULATOR_HOST",
+        "127.0.0.1:9099",
+    )
+
+    respuesta = cliente.post(
+        "/classify",
+        json=MUESTRA_FINA,
+        headers={"Authorization": "Bearer token-invalido"},
+    )
+
+    assert respuesta.status_code == 401, respuesta.text
+    assert respuesta.headers["www-authenticate"] == "Bearer"
