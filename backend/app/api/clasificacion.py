@@ -1,5 +1,6 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel, ConfigDict
+from app.api.autenticacion import obtener_usuario_actual
 
 from app.domain.clasificador_unificado import (
     ResultadoClasificacion,
@@ -30,7 +31,10 @@ class SolicitudClasificacion(BaseModel):
     inorganico_confirmado: bool = False
 
 
-@router.post("/classify")
+@router.post(
+    "/classify",
+    dependencies=[Depends(obtener_usuario_actual)],
+)
 async def clasificar(solicitud: SolicitudClasificacion) -> ResultadoClasificacion:
     """Clasifica una muestra de laboratorio mediante el motor SUCS."""
     datos_muestra = solicitud.model_dump(exclude={"inorganico_confirmado"})
