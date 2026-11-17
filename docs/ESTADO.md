@@ -1,3 +1,106 @@
+<!-- GEOSTRATIX-20261116-84 -->
+# Estado de desarrollo
+
+## Resumen vigente: 16 de noviembre de 2026
+
+Proyecto: clasificador SUCS para Android.
+
+### Backend
+
+- Python 3.12 y FastAPI.
+- Motor SUCS de suelos finos inorganicos y gruesos.
+- Validacion de muestras de laboratorio.
+- Firebase Authentication para identificar usuarios.
+- Cloud Firestore para cuentas y clasificaciones.
+- Desarrollo y pruebas mediante emuladores locales.
+
+### Funcionalidades implementadas y probadas
+
+- Inicializacion de cuenta con 10 creditos.
+- Conservacion del saldo al reinicializar.
+- Clasificacion SUCS autenticada.
+- Consumo de 1 credito por clasificacion nueva.
+- Guardado de resultado en Firestore.
+- Transacciones para proteger el saldo.
+- Idempotencia mediante clave de operacion.
+- Reintentos sin segundo cobro.
+- Rechazo por saldo insuficiente.
+- Historial privado de clasificaciones.
+- Consulta individual gratuita.
+- Paginacion con cursor.
+- Orden cronologico descendente.
+- Pruebas de aislamiento entre usuarios.
+- Prueba basica de concurrencia.
+- Verificacion de rutas OpenAPI.
+
+### Ultima evidencia
+
+84 pruebas aprobadas y ninguna fallida,
+segun ejecucion reportada por el desarrollador.
+
+Se registro una advertencia de compatibilidad
+de dependencias relacionada con Starlette y httpx.
+
+Las pruebas se ejecutaron con los emuladores
+Firebase Authentication y Firestore.
+
+El resultado no equivale a una auditoria
+de seguridad o validacion en produccion.
+
+### Endpoints actuales
+
+| Metodo | Ruta | Funcion |
+|---|---|---|
+| GET | /health | Salud del servicio |
+| GET | /auth/me | Identidad autenticada |
+| POST | /account/initialize | Inicializar cuenta |
+| POST | /classify | Clasificar y guardar |
+| GET | /classifications | Listar historial propio |
+| GET | /classifications/{clasificacion_id} | Consultar resultado |
+
+POST /classify requiere un token Bearer
+y la cabecera Idempotency-Key.
+
+### Pendientes
+
+- Integracion de Flutter con la API.
+- Interfaz definitiva de autenticacion.
+- Captura visual de muestras.
+- Visualizacion de saldo e historial.
+- Generacion y descarga de reportes PDF.
+- Google Play Billing.
+- Anuncios recompensados.
+- Autenticacion y Firestore para produccion.
+- Pruebas de seguridad adicionales.
+- Pruebas de concurrencia y carga ampliadas.
+- Validacion normativa integral.
+- Politica de privacidad y requisitos de tienda.
+
+### Git
+
+Rama de trabajo:
+feature/creditos-clasificaciones
+
+El commit y push de esta etapa requieren
+verificacion en Git antes de marcarse completos.
+
+No se autoriza automaticamente ningun merge
+a develop ni main.
+
+### Alcance
+
+Las pruebas respaldan los casos implementados.
+No se declara conformidad integral con ASTM D2487.
+
+Las cartas geologicas y la prediccion mediante
+aprendizaje automatico permanecen fuera de v1.
+
+---
+
+## Registro documental anterior
+
+> El contenido siguiente es historico. El resumen vigente es el de arriba.
+
 # Estado de desarrollo
 
 ## Resumen vigente al 16 de noviembre de 2026

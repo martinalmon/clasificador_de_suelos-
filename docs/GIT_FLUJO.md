@@ -483,3 +483,37 @@ docs: actualiza guia de ramas y flujo de Git
 ```
 
 **Fin de la guía de Git y GitHub — GeoStratix.**
+
+<!-- GEOSTRATIX-20261116-84 -->
+
+## Actualizacion de la etapa de creditos
+
+Rama:
+feature/creditos-clasificaciones
+
+Ultimo resultado reportado:
+84 pruebas aprobadas.
+
+Se incorporaron modulos de clasificacion
+con creditos, guardado, historial y pruebas.
+
+El commit y push deben verificarse
+antes de declararse realizados.
+
+No se autorizan merges automaticos
+a develop ni main.
+
+### Seguridad documental
+
+- La carpeta privado/ no debe subirse.
+- Los respaldos locales no deben subirse.
+- No utilizar git add . indiscriminadamente
+  cuando existan archivos nuevos.
+- Revisar git diff --cached --name-only.
+- Revisar git diff --cached antes del push.
+- No incluir tokens ni credenciales.
+- Conservar copias de seguridad locales.
+
+La exclusion mediante .gitignore
+no cifra ni protege por si sola
+los archivos del sistema operativo.

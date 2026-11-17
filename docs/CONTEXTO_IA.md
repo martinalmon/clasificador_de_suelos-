@@ -1,3 +1,84 @@
+<!-- GEOSTRATIX-20261116-84 -->
+# Contexto tecnico para colaboradores e IA
+
+## Objetivo
+
+Desarrollar una aplicacion Android para
+clasificacion geotecnica SUCS.
+
+## Arquitectura
+
+- Flutter/Dart para Android.
+- FastAPI/Python para el backend.
+- Firebase Authentication.
+- Cloud Firestore.
+- Pruebas con pytest.
+- Monorepo con mobile/, backend/ y docs/.
+
+## Estado
+
+Ultima ejecucion reportada:
+84 pruebas aprobadas.
+
+El backend implementa:
+- Clasificacion SUCS.
+- Autenticacion local.
+- Cuentas con 10 creditos iniciales.
+- Descuento transaccional.
+- Guardado de clasificaciones.
+- Idempotencia.
+- Historial privado.
+- Consulta gratuita.
+- Paginacion cronologica.
+- Prueba inicial de concurrencia.
+
+Los endpoints y contratos se describen
+en ARQUITECTURA.md.
+
+## Reglas de negocio
+
+- Cuenta nueva: 10 creditos.
+- Clasificacion nueva valida: 1 credito.
+- Reintento de la misma operacion: gratis.
+- Consulta del historial: gratis.
+- Descargas de PDF: gratuitas, incluida
+  la primera; implementacion pendiente.
+- Publicidad recompensada prevista:
+  2 anuncios por 1 credito.
+- Compras pendientes mediante Play Billing.
+
+## Limitaciones
+
+- Autenticacion de produccion pendiente.
+- Flutter aun no integrado con el backend.
+- Reportes PDF pendientes.
+- Compras y anuncios pendientes.
+- Conformidad ASTM integral no verificada.
+- Mapas y prediccion geologica fuera de v1.
+
+## Instrucciones para continuar
+
+1. Consultar ESTADO.md y ARQUITECTURA.md.
+2. Revisar DECISIONES.md.
+3. Revisar CRITERIOS_NORMATIVOS.md.
+4. Consultar GIT_FLUJO.md.
+5. Comprobar rama y git status.
+6. Inspeccionar el codigo actual.
+7. Ejecutar pruebas.
+8. Evitar cambios que rompan el motor SUCS.
+9. No introducir secretos al repositorio.
+10. No realizar merges sin autorizacion.
+
+La documentacion describe el ultimo estado
+reportado; verificar la implementacion real
+antes de introducir nuevos cambios.
+
+---
+
+## Registro documental anterior
+
+> El contenido siguiente es historico. El resumen vigente es el de arriba.
+
 # Contexto técnico para colaboradores e IA
 
 ## Proyecto
