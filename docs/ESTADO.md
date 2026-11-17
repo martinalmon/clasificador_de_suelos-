@@ -1,5 +1,45 @@
 # Estado de desarrollo
 
+## Resumen vigente al 16 de noviembre de 2026
+
+### Implementado y comprobado localmente
+
+- Motor SUCS para suelos finos inorgánicos y gruesos.
+- API de salud y clasificación.
+- Verificación de tokens del emulador y protección de /classify.
+- Emuladores Authentication y Firestore con demo-sucs-local.
+- Conexión de Python a Firestore.
+- Inicialización transaccional de cuentas con 10 créditos.
+- Conservación del saldo al repetir la inicialización.
+- 58 pruebas aprobadas según ejecución reportada por el desarrollador.
+
+La prueba manual conservó un saldo de 7 créditos después de editarlo
+en el emulador. Ese cambio manual no acredita un descuento automático.
+
+### Pendiente
+
+- Guardado de clasificaciones y descuento atómico.
+- Idempotencia y pruebas de cargos concurrentes.
+- Consulta privada de historial.
+- Generación y descarga gratuita de PDF.
+- Integración Flutter con autenticación y API.
+- Compras y anuncios recompensados.
+- Configuración y verificación de seguridad en producción.
+- Persistencia/exportación de datos de emuladores.
+- Validación normativa integral.
+- Verificar commit y push de la etapa de cuentas.
+
+Las pruebas de Firestore requieren el emulador y
+FIRESTORE_EMULATOR_HOST=127.0.0.1:8080.
+Sin esa variable, las tres pruebas de integración se omiten.
+
+## Historial anterior
+
+Las secciones siguientes conservan los registros de etapas previas.
+Sus pendientes corresponden a la fecha de cada registro.
+
+# Estado de desarrollo
+
 - [x] Arquitectura v1 seleccionada: Flutter + Python FastAPI.
 - [x] Scaffold UI de bienvenida.
 - [x] Endpoint `/health` y prueba básica (código preparado; ejecución pendiente de dependencias).

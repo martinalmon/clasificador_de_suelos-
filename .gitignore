@@ -25,3 +25,6 @@ firebase-debug*.log
 ui-debug*.log
 
 firestore-debug*.log
+
+# Contexto privado del equipo
+/privado/

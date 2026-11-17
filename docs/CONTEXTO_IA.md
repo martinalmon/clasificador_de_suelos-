@@ -1,23 +1,51 @@
-# CONTEXTO IA — GeoStratix (documento principal)
+# Contexto técnico para colaboradores e IA
 
-## Alcance confirmado
-- v1: SOLO clasificación SUCS de muestras, entrada manual de resultados de laboratorio.
-- UI: Flutter/Dart, trabajo en Android Studio.
-- Backend/lógica: Python, API FastAPI; no usar Kotlin para el motor.
-- No incluir mapas, predicción litológica, redes neuronales, cuentas ni servidor de datos en v1.
-- Referencias: resumen ASTM D2487-17(2025) y PDF ASTM D2487-06 facilitados por el usuario.
-- **No afirmar conformidad completa con ASTM 2025 sin contrastar texto oficial completo.**
+## Proyecto
 
-## Reglas de ingeniería
-KISS, DRY, YAGNI, responsabilidad única, validación explícita, pruebas, documentación Markdown por cambio, commits atómicos y code review antes del merge.
+Clasificador de suelos SUCS con Flutter para Android y backend
+Python/FastAPI. Las reglas geotécnicas se encuentran en
+backend/app/domain/.
 
-## Estado actual
-- Entregado scaffold Flutter y API de salud Python sin lógica SUCS.
-- No verificado con Flutter/Android SDK en este entorno (no instalados).
-- No configurado Git remoto (URL no proporcionada en el mensaje visible).
+## Punto de partida
 
-## Siguiente tarea
-Definir contratos de entrada/salida de muestra y validador en `backend/app/domain`, pruebas unitarias con casos límite, documentar criterios con referencia por página. Después exponer `/classify` y conectar desde Flutter.
+El motor clasifica suelos finos inorgánicos y suelos gruesos.
+La API exige autenticación para POST /classify.
+Se incorporó Firestore local y POST /account/initialize.
 
-## Cómo continuar
-En una nueva sesión, leer en este orden `docs/CONTEXTO_IA.md`, `docs/ESTADO.md`, `docs/DECISIONES.md`, `docs/CRITERIOS_NORMATIVOS.md` y el historial Git; no asumir tareas pendientes como terminadas.
+La inicialización concede 10 créditos a una cuenta nueva y conserva
+el saldo existente mediante una transacción.
+
+El desarrollador reportó 58 pruebas aprobadas con Firestore local
+activo. Tres verifican creación de cuenta, conservación del saldo
+e inicializaciones concurrentes. Es necesario volver a ejecutar
+las pruebas después de cambios relevantes.
+
+## Próxima implementación
+
+Guardar cada clasificación y descontar un crédito atómicamente.
+Evitar cargos duplicados en reintentos y solicitudes concurrentes.
+Vincular las operaciones al UID verificado.
+
+Todas las descargas del PDF, incluida la primera, son gratuitas.
+El PDF y el descuento todavía están pendientes.
+
+## Cómo retomar
+
+1. Revisar git status, rama actual y cambios locales.
+2. Leer ARQUITECTURA.md, ESTADO.md, DECISIONES.md y
+   CRITERIOS_NORMATIVOS.md dentro de docs/.
+3. Contrastar la documentación con el código y las pruebas actuales.
+4. Distinguir implementación local de configuración de producción.
+5. Ejecutar pruebas antes de proponer integración de cambios.
+
+El trabajo de cuentas se realizó en feature/creditos-clasificaciones.
+Su commit, push y merge deben verificarse en Git.
+
+## Criterios
+
+Mantener un monorepo sencillo y reutilizar el motor existente.
+Usar datos ficticios en pruebas.
+No incluir secretos en el código.
+Solicitar autorización antes de fusionar ramas.
+No afirmar conformidad completa con ASTM sin validación oficial.
+Los mapas y la predicción geológica quedan fuera de v1.
