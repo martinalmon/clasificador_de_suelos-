@@ -1,7 +1,16 @@
-from fastapi import APIRouter, Depends, HTTPException
-from pydantic import BaseModel, ConfigDict
-from app.api.autenticacion import obtener_usuario_actual
+"""API de clasificacion SUCS con consumo de creditos."""
 
+from dataclasses import asdict
+from typing import Annotated
+
+from fastapi import APIRouter, Depends, Header, HTTPException
+from google.api_core.exceptions import GoogleAPICallError, RetryError
+from google.cloud import firestore
+from pydantic import BaseModel, ConfigDict
+
+from app.api.autenticacion import obtener_usuario_actual
+from app.base_datos import obtener_base_datos
+from app.clasificaciones_guardadas import guardar_clasificacion
 from app.domain.clasificador_unificado import (
     ResultadoClasificacion,
     clasificar_sucs,
@@ -9,7 +18,7 @@ from app.domain.clasificador_unificado import (
 from app.domain.muestra_suelo import MuestraSuelo
 
 
-router = APIRouter(tags=["Clasificación"])
+router = APIRouter(tags=["Clasificacion"])
 
 
 class SolicitudClasificacion(BaseModel):
@@ -33,17 +42,67 @@ class SolicitudClasificacion(BaseModel):
 
 @router.post(
     "/classify",
-    dependencies=[Depends(obtener_usuario_actual)],
+    response_model=ResultadoClasificacion,
 )
-async def clasificar(solicitud: SolicitudClasificacion) -> ResultadoClasificacion:
-    """Clasifica una muestra de laboratorio mediante el motor SUCS."""
-    datos_muestra = solicitud.model_dump(exclude={"inorganico_confirmado"})
+def clasificar(
+    solicitud: SolicitudClasificacion,
+    usuario: Annotated[
+        dict,
+        Depends(obtener_usuario_actual),
+    ],
+    base_datos: Annotated[
+        firestore.Client,
+        Depends(obtener_base_datos),
+    ],
+    clave_operacion: Annotated[
+        str,
+        Header(
+            alias="Idempotency-Key",
+            min_length=1,
+            max_length=128,
+        ),
+    ],
+) -> dict:
+    """Clasifica, guarda y cobra un credito por operacion nueva."""
+
+    datos_entrada = solicitud.model_dump()
+
+    datos_muestra = solicitud.model_dump(
+        exclude={"inorganico_confirmado"}
+    )
 
     try:
         muestra = MuestraSuelo(**datos_muestra)
-        return clasificar_sucs(
+
+        resultado = clasificar_sucs(
             muestra,
-            inorganico_confirmado=solicitud.inorganico_confirmado,
+            inorganico_confirmado=(
+                solicitud.inorganico_confirmado
+            ),
         )
+
     except ValueError as error:
-        raise HTTPException(status_code=422, detail=str(error)) from error
+        raise HTTPException(
+            status_code=422,
+            detail=str(error),
+        ) from error
+
+    resultado_dict = asdict(resultado)
+
+    try:
+        return guardar_clasificacion(
+            base_datos=base_datos,
+            uid=usuario["uid"],
+            clave_operacion=clave_operacion,
+            datos_entrada=datos_entrada,
+            resultado=resultado_dict,
+        )
+
+    except (GoogleAPICallError, RetryError):
+        raise HTTPException(
+            status_code=503,
+            detail=(
+                "No se pudo guardar la clasificacion. "
+                "Reintenta con la misma clave de operacion."
+            ),
+        ) from None

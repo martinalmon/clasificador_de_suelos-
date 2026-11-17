@@ -17,3 +17,6 @@ app.include_router(health_router)
 app.include_router(clasificacion_router)
 app.include_router(autenticacion_router)
 app.include_router(cuenta_router)
+
+from app.api.historial import router as historial_router
+app.include_router(historial_router)
