@@ -23,3 +23,5 @@ Thumbs.db
 # Registros locales de Firebase
 firebase-debug*.log
 ui-debug*.log
+
+firestore-debug*.log

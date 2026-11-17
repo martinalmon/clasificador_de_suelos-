@@ -1,6 +1,7 @@
 """Punto de entrada HTTP de GeoStratix."""
 
 from fastapi import FastAPI
+from app.api.cuenta import router as cuenta_router
 
 
 from app.api.clasificacion import router as clasificacion_router
@@ -15,3 +16,4 @@ app = FastAPI(title="GeoStratix API", version="0.1.0")
 app.include_router(health_router)
 app.include_router(clasificacion_router)
 app.include_router(autenticacion_router)
+app.include_router(cuenta_router)
